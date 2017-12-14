@@ -7,29 +7,23 @@
 #define TO_CLIENT_MESSAGE   "Server message"
 #define TO_SERVER_MESSAGE_2 "Client message 2"
 
+char* current_time_str() {
+  char* time_str = calloc(256, sizeof(char));
+  time_t now = time(NULL);
+  strftime(time_str, 256, "%Y-%m-%d %H:%M:%S", localtime(&now));
+  return time_str;
+}
+
 void log_and_sleep(char* message) {
-  // https://stackoverflow.com/a/5142028/4077294
-  time_t rawtime;
-  struct tm* timeinfo;
-
-  time(&rawtime);
-  timeinfo = localtime(&rawtime);
-
-  printf("[%s] %s\n", asctime(timeinfo), message);
+  printf("[%s] %s\n", current_time_str(), message);
   sleep(1);
 }
 
 void log_fmt_and_sleep(char* message_fmt, char* arg) {
-  time_t rawtime;
-  struct tm* timeinfo;
-
-  time(&rawtime);
-  timeinfo = localtime(&rawtime);
-
   char buf[256];
   memset(buf, 0, sizeof(buf));
   sprintf(buf, message_fmt, arg);
-  printf("[%s] %s\n", asctime(timeinfo), buf);
+  printf("[%s] %s\n", current_time_str(), buf);
   sleep(1);
 }
 
